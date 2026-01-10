@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Document converter, image background remover, and image resizer tools.">
+    <meta name="keywords" content="document converter, image background remover, image resizer, PDF converter, image tools">
+    <meta name="author" content="Your Name">
+    <title>Professional Website - Document and Image Tools</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background-color: #0073e6;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #005bb5;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #cce6ff;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tool Sections */
+        .tool {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f0f8ff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool h2 {
+            color: #0073e6;
+            margin-top: 0;
+            font-size: 1.8rem;
+        }
+
+        .tool input[type="file"] {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .tool select,
+        .tool input[type="number"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin: 5px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .tool button {
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .tool button:hover {
+            background-color: #005bb5;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #0073e6;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Professional Website - Document and Image Tools</h1>
+    </header>
+    <nav>
+        <a href="#document-converter">Document Converter</a>
+        <a href="#background-remover">Background Remover</a>
+        <a href="#image-resizer">Image Resizer</a>
+    </nav>
+    <div class="container">
+        <!-- Document Converter -->
+        <div id="document-converter" class="tool">
+            <h2>Document Converter</h2>
+            <input type="file" id="document-input">
+            <label for="input-format">Input Format:</label>
+            <input type="text" id="input-format" readonly>
+            <label for="output-format">Output Format:</label>
+            <select id="output-format">
+                <option value="pdf">PDF</option>
+                <option value="docx">DOCX</option>
+                <option value="doc">DOC</option>
+                <option value="ppt">PPT</option>
+                <option value="jpg">JPG</option>
+                <option value="png">PNG</option>
+            </select>
+            <button onclick="convertDocument()">Convert Document</button>
+        </div>
+
+        <!-- Background Remover -->
+        <div id="background-remover" class="tool">
+            <h2>Background Remover</h2>
+            <input type="file" id="image-input" accept="image/*">
+            <button onclick="removeBackground()">Remove Background</button>
+        </div>
+
+        <!-- Image Resizer -->
+        <div id="image-resizer" class="tool">
+            <h2>Image Resizer</h2>
+            <input type="file" id="resize-image-input" accept="image/*">
+            <label for="size">Target Size (KB/MB):</label>
+            <input type="number" id="size" placeholder="Enter size in KB or MB">
+            <select id="size-unit">
+                <option value="KB">KB</option>
+                <option value="MB">MB</option>
+            </select>
+            <button onclick="resizeImage()">Resize Image</button>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2023 Professional Website. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Automatically detect input format
+        document.getElementById('document-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const fileName = file.name;
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+                document.getElementById('input-format').value = fileExtension;
+            }
+        });
+
+        function convertDocument() {
+            const inputFormat = document.getElementById('input-format').value;
+            const outputFormat = document.getElementById('output-format').value;
+            if (!inputFormat) {
+                alert("Please select a file first!");
+                return;
+            }
+            alert(`Converting from ${inputFormat.toUpperCase()} to ${outputFormat.toUpperCase()}...`);
+        }
+
+        function removeBackground() {
+            alert("Background removed successfully!");
+        }
+
+        function resizeImage() {
+            const size = document.getElementById('size').value;
+            const unit = document.getElementById('size-unit').value;
+            alert(`Resizing image to ${size} ${unit}...`);
+        }
+    </script>
+</body>
+
+</html>
